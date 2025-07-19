@@ -11,6 +11,7 @@ import com.hmsapi.hospital_system.service.IPatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,19 +85,53 @@ public class PatientServiceImpl implements IPatientService {
     public void deletePatientByEmail(String email) {
         Patient patient = patientRepository.findByEmail(email)
                 .orElseThrow(()-> new NotExitsException("Patient Not exits with this email " + email));
-        patientRepository.deleteByEmail(email);
+        patientRepository.delete(patient);
     }
 
 
 
     @Override
     public PatientResponse updatePatientByEmail(String email, PatientRequest patientRequest) {
-        return null;
+        Patient patient = patientRepository.findByEmail(email)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this email " + email));
+
+        patient.setName(patientRequest.getName());
+        patient.setEmail(patientRequest.getEmail());
+        patient.setFatherName(patientRequest.getFatherName());
+        patient.setMotherName(patientRequest.getMotherName());
+        patient.setGender(patientRequest.getGender());
+        patient.setAge(patientRequest.getAge());
+        patient.setAddress(patientRequest.getAddress());
+        patient.setContactNumber(patientRequest.getContactNumber());
+        patient.setDateOfBirth(patientRequest.getDateOfBirth());
+        patient.setBloodGroup(patientRequest.getBloodGroup());
+        patient.setEmergencyContact(patientRequest.getEmergencyContact());
+        patient.setAdmitted(patientRequest.isAdmitted());
+        patient.setUpdatedAt(LocalDateTime.now());
+
+        Patient updatePatient = patientRepository.save(patient);
+        return PatientMapper.entityToResponse(updatePatient);
     }
 
     @Override
-    public PatientResponse updatePatientById(Long Id, PatientRequest patientRequest) {
-        return null;
+    public PatientResponse updatePatientById(Long id, PatientRequest patientRequest) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this id " + id));
+        patient.setName(patientRequest.getName());
+        patient.setEmail(patientRequest.getEmail());
+        patient.setFatherName(patientRequest.getFatherName());
+        patient.setMotherName(patientRequest.getMotherName());
+        patient.setGender(patientRequest.getGender());
+        patient.setAge(patientRequest.getAge());
+        patient.setAddress(patientRequest.getAddress());
+        patient.setContactNumber(patientRequest.getContactNumber());
+        patient.setDateOfBirth(patientRequest.getDateOfBirth());
+        patient.setBloodGroup(patientRequest.getBloodGroup());
+        patient.setEmergencyContact(patientRequest.getEmergencyContact());
+        patient.setAdmitted(patientRequest.isAdmitted());
+        patient.setUpdatedAt(LocalDateTime.now());
+        Patient updatePatient = patientRepository.save(patient);
+        return PatientMapper.entityToResponse(updatePatient);
     }
 
 

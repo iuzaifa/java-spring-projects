@@ -39,5 +39,6 @@ public class Patient {
 
 
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
 }

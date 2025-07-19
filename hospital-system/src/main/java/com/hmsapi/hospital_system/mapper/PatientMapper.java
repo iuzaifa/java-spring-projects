@@ -43,6 +43,7 @@ public class PatientMapper {
         patient.setBloodGroup(request.getBloodGroup());
         patient.setEmergencyContact(request.getEmergencyContact());
         patient.setAdmitted(request.isAdmitted());
+
         return patient;
 
     }

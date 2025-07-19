@@ -1,10 +1,11 @@
-package com.hmsapi.hospital_system.cotroller;
+package com.hmsapi.hospital_system.controller;
 
 
 import com.hmsapi.hospital_system.respose.ApiResponse;
 import com.hmsapi.hospital_system.respose.PatientRequest;
 import com.hmsapi.hospital_system.respose.PatientResponse;
 import com.hmsapi.hospital_system.service.IPatientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,10 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/hospital.com/api/patient")
+@RequestMapping("/hospital/api/patient")
 public class PatientController {
 
     private final IPatientService patientService;
-
-
-
-
 
 
     // GET ALL PATIENTS
@@ -51,7 +48,7 @@ public class PatientController {
 
     // REGISTER A PATIENT
     @PostMapping("/register-patient") //
-    public ResponseEntity<ApiResponse<?>> registerPatient(@RequestBody PatientRequest patientRequest){
+    public ResponseEntity<ApiResponse<?>> registerPatient(@Valid @RequestBody PatientRequest patientRequest){
         String apiMessage = "Patient created successfully";
         PatientResponse patientResponse = patientService.registerPatientDetails(patientRequest);
         ApiResponse<PatientResponse> response = new ApiResponse<>(
@@ -98,6 +95,8 @@ public class PatientController {
     @GetMapping("/get/phone")
     public ResponseEntity<ApiResponse<?>> patientGetByPhone(@RequestParam("phone") String phone){
         String apiMessage = "Patient Find by phone successfully";
+
+
         PatientResponse patientResponse = patientService.patientGetByPhone(phone);
         ApiResponse<PatientResponse> response = new ApiResponse<>(
                 apiMessage,
@@ -136,6 +135,37 @@ public class PatientController {
                 HttpStatus.OK.value(),
                 null,
                 null
+        );
+        return ResponseEntity.ok(response);
+    }
+
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse<?>> updateById(@PathVariable("id") Long id,
+                                                    @Valid @RequestBody PatientRequest patientRequest){
+        String apiMessage = "Patient updated Successfully ";
+        PatientResponse patientResponse = patientService.updatePatientById(id, patientRequest);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                patientResponse
+        );
+        return ResponseEntity.ok(response);
+    }
+    @PutMapping("/update/email")
+    public ResponseEntity<ApiResponse<?>> updateByEmail(@RequestParam("email") String email,
+                                                        @Valid @RequestBody PatientRequest patientRequest){
+        String apiMessage = "Patient updated Successfully ";
+        PatientResponse patientResponse = patientService.updatePatientByEmail(email, patientRequest);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                patientResponse
         );
         return ResponseEntity.ok(response);
     }

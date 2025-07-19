@@ -15,13 +15,13 @@ public interface IPatientService {
 
     PatientResponse patientGetByID(Long id);
     PatientResponse patientGetByEmail(String email);
-    PatientResponse patientGetByPhone(String email);
+    PatientResponse patientGetByPhone(String phone);
 
     void deletePatientById(Long id);
     void deletePatientByEmail(String email);
 
     PatientResponse updatePatientByEmail(String email, PatientRequest patientRequest);
-    PatientResponse updatePatientById(Long Id, PatientRequest patientRequest);
+    PatientResponse updatePatientById(Long id, PatientRequest patientRequest);
 
 
 
