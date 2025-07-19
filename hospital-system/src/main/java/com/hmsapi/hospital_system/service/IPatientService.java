@@ -12,4 +12,18 @@ public interface IPatientService {
     List<PatientResponse> getAllPatient();
 
     PatientResponse registerPatientDetails(PatientRequest patientRequest);
+
+    PatientResponse patientGetByID(Long id);
+    PatientResponse patientGetByEmail(String email);
+    PatientResponse patientGetByPhone(String email);
+
+    void deletePatientById(Long id);
+    void deletePatientByEmail(String email);
+
+    PatientResponse updatePatientByEmail(String email, PatientRequest patientRequest);
+    PatientResponse updatePatientById(Long Id, PatientRequest patientRequest);
+
+
+
+
 }

@@ -1,17 +1,17 @@
 package com.hmsapi.hospital_system.service.serviceImpl;
 
+import com.hmsapi.hospital_system.exception.AlreadyExitsException;
+import com.hmsapi.hospital_system.exception.NotExitsException;
 import com.hmsapi.hospital_system.mapper.PatientMapper;
 import com.hmsapi.hospital_system.model.Patient;
 import com.hmsapi.hospital_system.repository.PatientRepository;
 import com.hmsapi.hospital_system.respose.PatientRequest;
 import com.hmsapi.hospital_system.respose.PatientResponse;
 import com.hmsapi.hospital_system.service.IPatientService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class PatientServiceImpl implements IPatientService {
     public List<PatientResponse> getAllPatient() {
         List<Patient> patients = patientRepository.findAll();
         return patients.stream()
-                .map(PatientMapper::patientToResponse)
+                .map(PatientMapper::entityToResponse)
                 .collect(Collectors.toList());
     }
 
@@ -34,29 +34,72 @@ public class PatientServiceImpl implements IPatientService {
     // REGISTER A PATIENT
     @Override
     public PatientResponse registerPatientDetails(PatientRequest patientRequest) {
-        Patient patient = new Patient();
 
-        Optional<Patient> getByEmail = Optional.ofNullable(patientRepository.existsByEmail(patientRequest.getEmail()).
-                orElseThrow(() -> new RuntimeException("ema is exits")));
-
-
-        patient.setName(patientRequest.getName());
-        patient.setEmail(patientRequest.getEmail());
-        patient.setFatherName(patientRequest.getFatherName());
-        patient.setMotherName(patientRequest.getMotherName());
-        patient.setGender(patientRequest.getGender());
-        patient.setAge(patientRequest.getAge());
-
-        patient.setContactNumber(patientRequest.getContactNumber());
-        patient.setAddress(patientRequest.getAddress());
-        patient.setDateOfBirth(patientRequest.getDateOfBirth());
-        patient.setBloodGroup(patientRequest.getBloodGroup());
-        patient.setEmergencyContact(patientRequest.getEmergencyContact());
-        patient.setAdmitted(patientRequest.isAdmitted());
-
-
-
+        boolean exitsByEmail = patientRepository.existsByEmail(patientRequest.getEmail());
+        boolean exitsByPhone = patientRepository.existsByContactNumber(patientRequest.getContactNumber());
+        if (exitsByEmail && exitsByPhone) {
+            throw new AlreadyExitsException("Both email and contact number already exist.");
+        } else if (exitsByEmail) {
+            throw new AlreadyExitsException("Email already exists: " + patientRequest.getEmail());
+        } else if (exitsByPhone) {
+            throw new AlreadyExitsException("Contact number already exists: " + patientRequest.getContactNumber());
+        }
+        Patient patient = PatientMapper.requestToEntity(patientRequest);
         Patient savedPatient = patientRepository.save(patient);
-        return PatientMapper.patientToResponse(savedPatient);
+        return PatientMapper.entityToResponse(savedPatient);
     }
+
+
+    // Patient get by id
+    @Override
+    public PatientResponse patientGetByID(Long id) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this id " + id));
+        return PatientMapper.entityToResponse(patient);
+    }
+
+    @Override
+    public PatientResponse patientGetByEmail(String email) {
+        Patient patient = patientRepository.findByEmail(email)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this email " + email));
+        return PatientMapper.entityToResponse(patient);
+    }
+
+    @Override
+    public PatientResponse patientGetByPhone(String phone) {
+        Patient patient = patientRepository.findByPhone(phone)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this phone " + phone));
+        return PatientMapper.entityToResponse(patient);
+    }
+
+    @Override
+    public void deletePatientById(Long id) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this id " + id));
+        patientRepository.deleteById(id);
+
+    }
+
+    @Override
+    public void deletePatientByEmail(String email) {
+        Patient patient = patientRepository.findByEmail(email)
+                .orElseThrow(()-> new NotExitsException("Patient Not exits with this email " + email));
+        patientRepository.deleteByEmail(email);
+    }
+
+
+
+    @Override
+    public PatientResponse updatePatientByEmail(String email, PatientRequest patientRequest) {
+        return null;
+    }
+
+    @Override
+    public PatientResponse updatePatientById(Long Id, PatientRequest patientRequest) {
+        return null;
+    }
+
+
+    // REGISTER A PATIENT
+
 }

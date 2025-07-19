@@ -52,10 +52,8 @@ public class PatientController {
     // REGISTER A PATIENT
     @PostMapping("/register-patient") //
     public ResponseEntity<ApiResponse<?>> registerPatient(@RequestBody PatientRequest patientRequest){
-
         String apiMessage = "Patient created successfully";
         PatientResponse patientResponse = patientService.registerPatientDetails(patientRequest);
-
         ApiResponse<PatientResponse> response = new ApiResponse<>(
                 apiMessage,
                 LocalDateTime.now(),
@@ -64,8 +62,86 @@ public class PatientController {
                 patientResponse
         );
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 
+    // REGISTER A PATIENT
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ApiResponse<?>> patientGetById(@PathVariable("id") Long id){
+        String apiMessage = "Patient Find by id successfully";
+        PatientResponse patientResponse = patientService.patientGetByID(id);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                patientResponse
+        );
+        return  ResponseEntity.ok(response);
+    }
+
+    // PATIENT GET BY EMAIL
+    @GetMapping("/get/email")
+    public ResponseEntity<ApiResponse<?>> patientGetByEmail(@RequestParam("email") String email){
+        String apiMessage = "Patient Find by email successfully";
+        PatientResponse patientResponse = patientService.patientGetByEmail(email);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                patientResponse
+        );
+        return  ResponseEntity.ok(response);
+    }
+
+    // patientGetByPhone
+    @GetMapping("/get/phone")
+    public ResponseEntity<ApiResponse<?>> patientGetByPhone(@RequestParam("phone") String phone){
+        String apiMessage = "Patient Find by phone successfully";
+        PatientResponse patientResponse = patientService.patientGetByPhone(phone);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                patientResponse
+        );
+        return  ResponseEntity.ok(response);
     }
 
 
- }
+    // deletePatientById deletePatientByEmail
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse<?>> deleteById(@PathVariable("id") Long id){
+        String apiMessage = "Patient Deleted Successfully ";
+        patientService.deletePatientById(id);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/email")
+    public ResponseEntity<ApiResponse<?>> deleteByEmail(@RequestParam("email") String email){
+        String apiMessage = "Patient Deleted Successfully ";
+        patientService.deletePatientByEmail(email);
+        ApiResponse<PatientResponse> response = new ApiResponse<>(
+                apiMessage,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
+
+}

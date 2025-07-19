@@ -8,9 +8,8 @@ public class PatientMapper {
 
 
     // Convert Patient entity to PatientResponse (for API output)
-    public static PatientResponse patientToResponse(Patient patient) {
+    public static PatientResponse entityToResponse(Patient patient) {
         if (patient == null) return null;
-
         PatientResponse response = new PatientResponse();
         response.setId(patient.getId());
         response.setName(patient.getName());
@@ -28,7 +27,7 @@ public class PatientMapper {
         return response;
     }
 
-    public static Patient patientToRequest(PatientRequest request) {
+    public static Patient requestToEntity(PatientRequest request) {
         if (request == null) return null;
 
         Patient patient = new Patient();

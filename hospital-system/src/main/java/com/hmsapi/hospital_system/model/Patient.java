@@ -36,6 +36,8 @@ public class Patient {
     private String emergencyContact;
     private boolean admitted;
 
+
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
 }
