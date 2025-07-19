@@ -1,4 +1,4 @@
-package com.hmsapi.hospital_system.respose;
+package com.hmsapi.hospital_system.response;
 
 
 import jakarta.validation.constraints.*;

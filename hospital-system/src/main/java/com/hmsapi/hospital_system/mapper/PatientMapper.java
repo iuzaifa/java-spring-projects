@@ -1,8 +1,8 @@
 package com.hmsapi.hospital_system.mapper;
 
 import com.hmsapi.hospital_system.model.Patient;
-import com.hmsapi.hospital_system.respose.PatientRequest;
-import com.hmsapi.hospital_system.respose.PatientResponse;
+import com.hmsapi.hospital_system.response.PatientRequest;
+import com.hmsapi.hospital_system.response.PatientResponse;
 
 public class PatientMapper {
 

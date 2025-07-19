@@ -1,8 +1,8 @@
 package com.hmsapi.hospital_system.service;
 
 
-import com.hmsapi.hospital_system.respose.PatientRequest;
-import com.hmsapi.hospital_system.respose.PatientResponse;
+import com.hmsapi.hospital_system.response.PatientRequest;
+import com.hmsapi.hospital_system.response.PatientResponse;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ public interface IPatientService {
 
     PatientResponse registerPatientDetails(PatientRequest patientRequest);
 
-    PatientResponse patientGetByID(Long id);
-    PatientResponse patientGetByEmail(String email);
-    PatientResponse patientGetByPhone(String phone);
+    PatientResponse getPatientById(Long id);
+    PatientResponse getPatientByEmail(String email);
+    PatientResponse getPatientByPhone(String phone);
 
     void deletePatientById(Long id);
     void deletePatientByEmail(String email);

@@ -5,8 +5,8 @@ import com.hmsapi.hospital_system.exception.NotExitsException;
 import com.hmsapi.hospital_system.mapper.PatientMapper;
 import com.hmsapi.hospital_system.model.Patient;
 import com.hmsapi.hospital_system.repository.PatientRepository;
-import com.hmsapi.hospital_system.respose.PatientRequest;
-import com.hmsapi.hospital_system.respose.PatientResponse;
+import com.hmsapi.hospital_system.response.PatientRequest;
+import com.hmsapi.hospital_system.response.PatientResponse;
 import com.hmsapi.hospital_system.service.IPatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,21 +53,21 @@ public class PatientServiceImpl implements IPatientService {
 
     // Patient get by id
     @Override
-    public PatientResponse patientGetByID(Long id) {
+    public PatientResponse getPatientById(Long id) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(()-> new NotExitsException("Patient Not exits with this id " + id));
         return PatientMapper.entityToResponse(patient);
     }
 
     @Override
-    public PatientResponse patientGetByEmail(String email) {
+    public PatientResponse getPatientByEmail(String email) {
         Patient patient = patientRepository.findByEmail(email)
                 .orElseThrow(()-> new NotExitsException("Patient Not exits with this email " + email));
         return PatientMapper.entityToResponse(patient);
     }
 
     @Override
-    public PatientResponse patientGetByPhone(String phone) {
+    public PatientResponse getPatientByPhone(String phone) {
         Patient patient = patientRepository.findByPhone(phone)
                 .orElseThrow(()-> new NotExitsException("Patient Not exits with this phone " + phone));
         return PatientMapper.entityToResponse(patient);

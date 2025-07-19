@@ -1,9 +1,9 @@
 package com.hmsapi.hospital_system.controller;
 
 
-import com.hmsapi.hospital_system.respose.ApiResponse;
-import com.hmsapi.hospital_system.respose.PatientRequest;
-import com.hmsapi.hospital_system.respose.PatientResponse;
+import com.hmsapi.hospital_system.response.ApiResponse;
+import com.hmsapi.hospital_system.response.PatientRequest;
+import com.hmsapi.hospital_system.response.PatientResponse;
 import com.hmsapi.hospital_system.service.IPatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +65,7 @@ public class PatientController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse<?>> patientGetById(@PathVariable("id") Long id){
         String apiMessage = "Patient Find by id successfully";
-        PatientResponse patientResponse = patientService.patientGetByID(id);
+        PatientResponse patientResponse = patientService.getPatientById(id);
         ApiResponse<PatientResponse> response = new ApiResponse<>(
                 apiMessage,
                 LocalDateTime.now(),
@@ -80,7 +80,7 @@ public class PatientController {
     @GetMapping("/get/email")
     public ResponseEntity<ApiResponse<?>> patientGetByEmail(@RequestParam("email") String email){
         String apiMessage = "Patient Find by email successfully";
-        PatientResponse patientResponse = patientService.patientGetByEmail(email);
+        PatientResponse patientResponse = patientService.getPatientByEmail(email);
         ApiResponse<PatientResponse> response = new ApiResponse<>(
                 apiMessage,
                 LocalDateTime.now(),
@@ -97,7 +97,7 @@ public class PatientController {
         String apiMessage = "Patient Find by phone successfully";
 
 
-        PatientResponse patientResponse = patientService.patientGetByPhone(phone);
+        PatientResponse patientResponse = patientService.getPatientByPhone(phone);
         ApiResponse<PatientResponse> response = new ApiResponse<>(
                 apiMessage,
                 LocalDateTime.now(),
