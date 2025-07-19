@@ -1,9 +1,6 @@
 package com.hmsapi.hospital_system.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -34,6 +31,10 @@ public class Doctor {
     private String qualification;
     private int yearsOfExperience;
     private LocalDate joiningDate;
+
+    @Enumerated(EnumType.STRING)
+    private DoctorStatus status;
+
     private boolean available;
 
     private LocalDateTime createdAt = LocalDateTime.now();
