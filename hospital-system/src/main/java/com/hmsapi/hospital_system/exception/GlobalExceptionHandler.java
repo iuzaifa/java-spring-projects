@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler{
 
 
-    @ExceptionHandler(AlreadyExitsException.class)
-    public ResponseEntity<ExceptionResponseDTO> categoriesExitsGlobalExceptionHandler(AlreadyExitsException exception, WebRequest webRequest){
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponseDTO> categoriesExitsGlobalExceptionHandler(AlreadyExistsException exception, WebRequest webRequest){
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.CONFLICT.toString(),
@@ -25,8 +25,8 @@ public class GlobalExceptionHandler{
     }
 
 
-    @ExceptionHandler(NotExitsException.class)
-    public ResponseEntity<ExceptionResponseDTO> categoriesExitsGlobalExceptionHandler(NotExitsException exception, WebRequest webRequest){
+    @ExceptionHandler(NotExistsException.class)
+    public ResponseEntity<ExceptionResponseDTO> categoriesExitsGlobalExceptionHandler(NotExistsException exception, WebRequest webRequest){
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.CONFLICT.toString(),

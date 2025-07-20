@@ -1,26 +1,16 @@
-package com.hmsapi.hospital_system.model;
+package com.hmsapi.hospital_system.response;
 
-import jakarta.persistence.*;
-import lombok.*;
+import com.hmsapi.hospital_system.model.DoctorStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
-@Builder
-@Entity
-public class Doctor {
+@Data
+public class DoctorResponse {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-
     private String email;
     private String name;
     private String fatherName;
@@ -35,12 +25,5 @@ public class Doctor {
 
     @Enumerated(EnumType.STRING)
     private DoctorStatus status;
-
     private boolean available;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt;
-
-
-
 }
