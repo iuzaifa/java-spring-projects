@@ -106,13 +106,11 @@ public class PatientServiceImpl implements IPatientService {
         }
 
         patient.setName(patientRequest.getName());
-        patient.setEmail(patientRequest.getEmail());
         patient.setFatherName(patientRequest.getFatherName());
         patient.setMotherName(patientRequest.getMotherName());
         patient.setGender(patientRequest.getGender());
         patient.setAge(patientRequest.getAge());
         patient.setAddress(patientRequest.getAddress());
-        patient.setContactNumber(patientRequest.getContactNumber());
         patient.setDateOfBirth(patientRequest.getDateOfBirth());
         patient.setBloodGroup(patientRequest.getBloodGroup());
         patient.setEmergencyContact(patientRequest.getEmergencyContact());
@@ -127,6 +125,7 @@ public class PatientServiceImpl implements IPatientService {
     public PatientResponse updatePatientById(Long id, PatientRequest patientRequest) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(()-> new NotExistsException("Patient Not exits with this id " + id));
+
         boolean exitsByEmail = patientRepository.existsByEmail(patientRequest.getEmail());
         boolean exitsByPhone = patientRepository.existsByContactNumber(patientRequest.getContactNumber());
         if (exitsByEmail && exitsByPhone) {
@@ -142,8 +141,8 @@ public class PatientServiceImpl implements IPatientService {
         patient.setMotherName(patientRequest.getMotherName());
         patient.setGender(patientRequest.getGender());
         patient.setAge(patientRequest.getAge());
-        patient.setAddress(patientRequest.getAddress());
         patient.setContactNumber(patientRequest.getContactNumber());
+        patient.setAddress(patientRequest.getAddress());
         patient.setDateOfBirth(patientRequest.getDateOfBirth());
         patient.setBloodGroup(patientRequest.getBloodGroup());
         patient.setEmergencyContact(patientRequest.getEmergencyContact());

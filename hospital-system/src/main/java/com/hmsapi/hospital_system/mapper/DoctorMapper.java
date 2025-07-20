@@ -9,6 +9,8 @@ public class DoctorMapper {
 
 
     public static DoctorResponse entityToResponse(Doctor doctor) {
+        if (doctor == null) return null;
+
         DoctorResponse response = new DoctorResponse();
         response.setId(doctor.getId());
         response.setName(doctor.getName());
@@ -29,6 +31,8 @@ public class DoctorMapper {
 
 
     public static Doctor requestToEntity(DoctorRequest doctorRequest){
+        if (doctorRequest == null) return null;
+
         Doctor doctor = new Doctor();
 
         doctor.setName(doctorRequest.getName());

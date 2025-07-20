@@ -143,7 +143,7 @@ public class PatientController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<?>> updateById(@PathVariable("id") Long id,
-                                                    @Valid @RequestBody PatientRequest patientRequest){
+                                                     @Valid @RequestBody PatientRequest patientRequest){
         String apiMessage = "Patient updated Successfully ";
         PatientResponse patientResponse = patientService.updatePatientById(id, patientRequest);
         ApiResponse<PatientResponse> response = new ApiResponse<>(
@@ -155,7 +155,8 @@ public class PatientController {
         );
         return ResponseEntity.ok(response);
     }
-    @PutMapping("/update/email")
+
+    @PutMapping("/update/by-email")
     public ResponseEntity<ApiResponse<?>> updateByEmail(@RequestParam("email") String email,
                                                         @Valid @RequestBody PatientRequest patientRequest){
         String apiMessage = "Patient updated Successfully ";

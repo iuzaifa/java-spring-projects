@@ -12,12 +12,15 @@ public interface IDoctorService {
     DoctorResponse createDoctor(DoctorRequest doctorRequest);
 
     DoctorResponse getDoctorById (Long id);
+    DoctorResponse getDoctorByEmail(String email);
+
 
     void deleteDoctorById(Long id);
+    void deleteDoctorByEmail(String email);
 
     DoctorResponse updateDoctorById(Long id, DoctorRequest doctorRequest);
+    DoctorResponse updateDoctorByEmail(String email, DoctorRequest doctorRequest);
 
-    DoctorResponse getDoctorByEmail(String email, DoctorRequest doctorRequest);
 
 
 }

@@ -4,13 +4,11 @@ import com.hmsapi.hospital_system.response.ApiResponse;
 import com.hmsapi.hospital_system.response.DoctorRequest;
 import com.hmsapi.hospital_system.response.DoctorResponse;
 import com.hmsapi.hospital_system.service.IDoctorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -46,8 +44,8 @@ public class DoctorController {
     }
 
     @PostMapping("/create/new-doctor")
-    public ResponseEntity<ApiResponse<?>> createDoctors(DoctorRequest doctorRequest){
-        String message = "Doctors fetched successfully";
+    public ResponseEntity<ApiResponse<?>> createDoctors(@Valid @RequestBody DoctorRequest doctorRequest){
+        String message = "Doctor Created successfully";
         DoctorResponse doctors = doctorService.createDoctor(doctorRequest);
         ApiResponse<DoctorResponse> response = new ApiResponse<>(
                 message,
@@ -57,6 +55,93 @@ public class DoctorController {
                 doctors
         );
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/get/doctor/{id}")
+    public ResponseEntity<ApiResponse<?>> createDoctors(@PathVariable("id") Long id){
+        String message = "Doctors fetched successfully";
+        DoctorResponse doctor = doctorService.getDoctorById(id);
+        ApiResponse<DoctorResponse> response = new ApiResponse<>(
+                message,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                doctor
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/get/doctor/by-email")
+    public ResponseEntity<ApiResponse<?>> createDoctors(@RequestParam("email") String email){
+        String message = "Doctors fetched successfully";
+        DoctorResponse doctor = doctorService.getDoctorByEmail(email);
+        ApiResponse<DoctorResponse> response = new ApiResponse<>(
+                message,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                doctor
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update/doctor/{id}")
+    public ResponseEntity<ApiResponse<?>> updateDoctorById(@PathVariable("id") Long id,
+                                                           @Valid @RequestBody DoctorRequest doctorRequest){
+        String message = "Doctors updated successfully";
+        DoctorResponse doctor = doctorService.updateDoctorById(id, doctorRequest);
+        ApiResponse<DoctorResponse> response = new ApiResponse<>(
+                message,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                doctor
+        );
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/update/doctor/by-email")
+    public ResponseEntity<ApiResponse<?>> updateDoctorByEmail(@RequestParam("email") String email,
+                                                              @Valid @RequestBody DoctorRequest doctorRequest){
+        String message = "Doctors updated successfully";
+        DoctorResponse doctor = doctorService.updateDoctorByEmail(email, doctorRequest);
+        ApiResponse<DoctorResponse> response = new ApiResponse<>(
+                message,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                doctor
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/doctor/{id}")
+    public ResponseEntity<ApiResponse<?>> deleteDoctorById(@PathVariable("id") Long id){
+        String message = "Doctors Deleted successfully";
+        doctorService.deleteDoctorById(id);
+        ApiResponse<DoctorResponse> response = new ApiResponse<>(
+                message,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                null
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/doctor/by-email")
+    public ResponseEntity<ApiResponse<?>> deleteDoctorByEmail(@RequestParam("email") String email){
+        String message = "Doctors Deleted successfully";
+        doctorService.deleteDoctorByEmail(email);
+        ApiResponse<DoctorResponse> response = new ApiResponse<>(
+                message,
+                LocalDateTime.now(),
+                HttpStatus.OK.value(),
+                null,
+                null
+        );
+        return ResponseEntity.ok(response);
     }
 
 

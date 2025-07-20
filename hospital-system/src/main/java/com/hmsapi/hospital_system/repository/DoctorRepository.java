@@ -12,11 +12,11 @@ import java.util.Optional;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
 
-    @Query(value = "SELECT * FROM doctor WHERE email =:email", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) > 0 FROM doctor WHERE email = :email", nativeQuery = true)
     boolean existsByEmail(@Param("email") String email);
 
-    @Query(value = "SELECT * FROM doctor WHERE contact_number =:contactNumber", nativeQuery = true)
-    boolean existsByPhone(String contactNumber);
+    @Query(value = "SELECT COUNT(*) > 0 FROM doctor WHERE contact_number = :contactNumber", nativeQuery = true)
+    boolean existsByContactNumber(@Param("contactNumber") String contactNumber);
 
     Optional<Doctor> findByEmail(String email);
 }

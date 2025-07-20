@@ -11,6 +11,7 @@ import com.hmsapi.hospital_system.service.IDoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ public class DoctorServiceImpl implements IDoctorService {
     @Override
     public DoctorResponse createDoctor(DoctorRequest doctorRequest) {
         boolean isExitsEmail = doctorRepository.existsByEmail(doctorRequest.getEmail());
-        boolean isPhoneExits = doctorRepository.existsByPhone(doctorRequest.getContactNumber());
+        boolean isPhoneExits = doctorRepository.existsByContactNumber(doctorRequest.getContactNumber());
         if (isPhoneExits && isExitsEmail) {
             throw new AlreadyExistsException("Doctor Email and Contact Number already exists. Please try another: "
                     + doctorRequest.getEmail() + ", " + doctorRequest.getContactNumber());
@@ -56,11 +57,25 @@ public class DoctorServiceImpl implements IDoctorService {
         return DoctorMapper.entityToResponse(doctor);
     }
 
+    @Override
+    public DoctorResponse getDoctorByEmail(String email) {
+        Doctor doctor = doctorRepository.findByEmail(email)
+                .orElseThrow(() -> new NotExistsException(String.format(String.format("Doctor with email '%s' not found. Please try another email.", email))));
+        return DoctorMapper.entityToResponse(doctor);
+    }
+
 
     @Override
     public void deleteDoctorById(Long id) {
         Doctor doctor = doctorRepository.findById(id)
                 .orElseThrow(()-> new NotExistsException(String.format("Doctor with ID %d not found. Please try another ID.", id)));
+        doctorRepository.delete(doctor);
+    }
+
+    @Override
+    public void deleteDoctorByEmail(String email) {
+        Doctor doctor = doctorRepository.findByEmail(email)
+                .orElseThrow(()-> new NotExistsException(String.format(String.format("Doctor with email '%s' not found. Please try another email.", email))));
         doctorRepository.delete(doctor);
     }
 
@@ -83,11 +98,14 @@ public class DoctorServiceImpl implements IDoctorService {
         doctor.setStatus(doctorRequest.getStatus());
         doctor.setAvailable(doctorRequest.isAvailable());
         doctor.setUpdatedAt(LocalDateTime.now());
-        return DoctorMapper.entityToResponse(doctor);
+
+        Doctor update = doctorRepository.save(doctor);
+        return DoctorMapper.entityToResponse(update);
+
     }
 
     @Override
-    public DoctorResponse getDoctorByEmail(String email, DoctorRequest doctorRequest) {
+    public DoctorResponse updateDoctorByEmail(String email, DoctorRequest doctorRequest) {
         Doctor doctor = doctorRepository.findByEmail(email)
                 .orElseThrow(()-> new NotExistsException(String.format(String.format("Doctor with email '%s' not found. Please try another email.", email))));
 
@@ -105,6 +123,8 @@ public class DoctorServiceImpl implements IDoctorService {
         doctor.setStatus(doctorRequest.getStatus());
         doctor.setAvailable(doctorRequest.isAvailable());
         doctor.setUpdatedAt(LocalDateTime.now());
-        return DoctorMapper.entityToResponse(doctor);
+
+        Doctor update = doctorRepository.save(doctor);
+        return DoctorMapper.entityToResponse(update);
     }
 }

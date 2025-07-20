@@ -11,6 +11,7 @@ public class PatientRequest {
 
 
 
+
     @NotEmpty(message = "Email must not be empty")
     @Email(message = "Invalid email format")
     private String email;
