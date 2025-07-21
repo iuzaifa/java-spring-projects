@@ -20,8 +20,8 @@ public class Appointment {
     private Long id;
 
 
-//    private Patient patient;
-//    private Doctor doctor;
+    private Patient patient;
+    private Doctor doctor;
 
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
