@@ -1,23 +1,21 @@
-package com.hmsapi.hospital_system.model;
+package com.hmsapi.hospital_system.response;
 
-import jakarta.persistence.*;
-import lombok.*;
+
+import com.hmsapi.hospital_system.model.AppointmentStatus;
+import com.hmsapi.hospital_system.model.Doctor;
+import com.hmsapi.hospital_system.model.Patient;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
-@Builder
-@Entity
-public class Appointment {
+@Data
+public class AppointmentRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
 
     private Patient patient;
@@ -26,10 +24,10 @@ public class Appointment {
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
 
-    @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
     private String remarks;
+
     private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt;
+
 }
